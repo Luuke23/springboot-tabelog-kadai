@@ -53,17 +53,17 @@
 								</a>
 								
 								<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownGeneral">
-									<a class="dropdown-item nagoyameshi-dropdown-item">マイページ</a> 
+									<a class="dropdown-item nagoyameshi-dropdown-item" href="#">マイページ</a> 
 									
 									<div class="dropdown-divider"></div>
 									
 									<!--有料会員のみに表示するメニュー-->
 									<div sec:authorize="hasRole('ROLE_PAID_MEMBER')">
-										<a class="dropdown-item nagoyameshi-dropdown-item">予約一覧</a> 
+										<a class="dropdown-item nagoyameshi-dropdown-item" href="#">予約一覧</a> 
 									
 										<div class="dropdown-divider"></div>
 									
-										<a class="dropdown-item nagoyameshi-dropdown-item">お気に入り一覧</a>
+										<a class="dropdown-item nagoyameshi-dropdown-item" href="#">お気に入り一覧</a>
 									
 										<div class="dropdown-divider"></div>
 									</div>
@@ -82,7 +82,7 @@
 								</a>
 								
 								<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAdmin">
-									<a class="dropdown-item nagoyameshi-dropdown-item">管理者ページ</a> 
+									<a class="dropdown-item nagoyameshi-dropdown-item" href="#">管理者ページ</a> 
 									
 									<div class="dropdown-divider"></div>
 									

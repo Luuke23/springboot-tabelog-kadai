@@ -1,0 +1,112 @@
+package com.example.nagoyameshi.service;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalTime;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.nagoyameshi.entity.Restaurant;
+import com.example.nagoyameshi.form.RestaurantEditForm;
+import com.example.nagoyameshi.form.RestaurantRegisterForm;
+import com.example.nagoyameshi.repository.RestaurantRepository;
+
+@Service
+public class RestaurantService {
+	private final RestaurantRepository restaurantRepository;
+	
+	public RestaurantService(RestaurantRepository restaurantRepository) {
+		this.restaurantRepository = restaurantRepository;
+	}
+	
+//	店舗登録機能
+	@Transactional
+	public void create(RestaurantRegisterForm restaurantRegisterForm) {
+		Restaurant restaurant = new Restaurant();
+		MultipartFile imageFile = restaurantRegisterForm.getImageFile();
+		
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewFileName(imageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+			copyImageFile(imageFile, filePath);
+			restaurant.setImageName(hashedImageName);
+		}
+		
+		restaurant.setName(restaurantRegisterForm.getName());
+		restaurant.setDescription(restaurantRegisterForm.getDescription());
+		restaurant.setLowestPrice(restaurantRegisterForm.getLowestPrice());
+		restaurant.setHighestPrice(restaurantRegisterForm.getHighestPrice());
+		restaurant.setPostalCode(restaurantRegisterForm.getPostalCode());
+		restaurant.setAddress(restaurantRegisterForm.getAddress());
+		restaurant.setOpeningTime(restaurantRegisterForm.getOpeningTime());
+		restaurant.setClosingTime(restaurantRegisterForm.getClosingTime());
+		restaurant.setSeatingCapacity(restaurantRegisterForm.getSeatingCapacity());
+		
+		restaurantRepository.save(restaurant);
+	}
+	
+//	店舗更新機能
+	@Transactional
+	public void update(RestaurantEditForm restaurantEditForm) {
+		Restaurant restaurant = restaurantRepository.getReferenceById(restaurantEditForm.getId());
+		MultipartFile imageFile = restaurantEditForm.getImageFile();
+		
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewFileName(imageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+			copyImageFile(imageFile, filePath);
+			restaurant.setImageName(hashedImageName);
+		}
+		
+		restaurant.setName(restaurantEditForm.getName());
+		restaurant.setDescription(restaurantEditForm.getDescription());
+		restaurant.setLowestPrice(restaurant.getLowestPrice());
+		restaurant.setHighestPrice(restaurant.getHighestPrice());
+		restaurant.setPostalCode(restaurantEditForm.getPostalCode());
+		restaurant.setAddress(restaurantEditForm.getAddress());
+		restaurant.setOpeningTime(restaurantEditForm.getOpeningTime());
+		restaurant.setClosingTime(restaurantEditForm.getClosingTime());
+		restaurant.setSeatingCapacity(restaurantEditForm.getSeatingCapacity());
+		
+		restaurantRepository.save(restaurant);
+	}
+	
+//	UUIDを使って生成したファイル名を返す
+	public String generateNewFileName(String fileName) {
+		String[] fileNames = fileName.split("\\.");
+		for (int i = 0; i < fileNames.length -1; i++) {
+			fileNames[i] = UUID.randomUUID().toString();
+		}
+		String hashedFileName = String.join(".", fileNames);
+		return hashedFileName;
+	}
+	
+//	画像ファイルを指定したファイルにコピーする
+	public void copyImageFile(MultipartFile imageFile, Path filePath) {
+		try {
+			Files.copy(imageFile.getInputStream(), filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+//	価格が正しく設定されているかチェック
+	public boolean isValidPrices(Integer lowestPrice, Integer highestPrice) {
+		return highestPrice >= lowestPrice;
+	}
+	
+//	営業時間が正しく入力されているかチェック
+	public boolean isValidOpeningHours(LocalTime openingTime, LocalTime closingTime) {
+		return openingTime.isBefore(closingTime);
+	}
+	
+
+
+}
