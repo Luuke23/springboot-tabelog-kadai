@@ -135,6 +135,20 @@
 										<span th:text="${restaurant.getSeatingCapacity()} + '席'"></span>
 									</div>
 								</div>
+								
+								<div class="row pb-2 mb-2 border-bottom">
+									<div class="col-4">
+										<span class="fw-bold">カテゴリ</span>
+									</div>
+									<div class="col-8">
+										<div th:if="${restaurant.categoriesRestaurants.isEmpty()}">
+											<span>未設定</span>
+										</div>
+										<div th:unless="${restaurant.categoriesRestaurants.isEmpty()}">
+											<span th:each="categoryRestaurant, stat : ${restaurant.categoriesRestaurants}" th:if="${stat.first}" th:text="${categoryRestaurant.category.name}"></span><span th:each="categoryRestaurant, stat: ${restaurant.categoriesRestaurants}" th:unless="${stat.first}" th:text="${'、' + categoryRestaurant.category.name}"></span>
+										</div>
+									</div>
+								</div>
 							</div>
 							
 						</div>
