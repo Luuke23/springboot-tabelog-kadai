@@ -21,10 +21,12 @@ import com.example.nagoyameshi.repository.RestaurantRepository;
 public class RestaurantService {
 	private final RestaurantRepository restaurantRepository;
 	private final CategoryRestaurantService categoryRestaurantService;
+	private final RegularHolidayRestaurantService regularHolidayRestaurantService;
 	
-	public RestaurantService(RestaurantRepository restaurantRepository, CategoryRestaurantService categoryRestaurantService) {
+	public RestaurantService(RestaurantRepository restaurantRepository, CategoryRestaurantService categoryRestaurantService, RegularHolidayRestaurantService regularHolidayRestaurantService) {
 		this.restaurantRepository = restaurantRepository;
 		this.categoryRestaurantService = categoryRestaurantService;
+		this.regularHolidayRestaurantService = regularHolidayRestaurantService;
 	}
 	
 //	店舗登録機能
@@ -33,6 +35,7 @@ public class RestaurantService {
 		Restaurant restaurant = new Restaurant();
 		MultipartFile imageFile = restaurantRegisterForm.getImageFile();
 		List<Integer> categoryIds = restaurantRegisterForm.getCategoryIds();
+		List<Integer> regularHolidayIds = restaurantRegisterForm.getRegularHolidayIds();
 		
 		if (!imageFile.isEmpty()) {
 			String imageName = imageFile.getOriginalFilename();
@@ -57,6 +60,10 @@ public class RestaurantService {
 		if(categoryIds != null) {
 			categoryRestaurantService.createCategoriesRestaurants(categoryIds, restaurant);
 		}
+		
+		if (regularHolidayIds != null) {
+			regularHolidayRestaurantService.createRegularHolidaysRestaurants(regularHolidayIds, restaurant);
+		}
 	}
 	
 //	店舗更新機能
@@ -65,6 +72,7 @@ public class RestaurantService {
 		Restaurant restaurant = restaurantRepository.getReferenceById(restaurantEditForm.getId());
 		MultipartFile imageFile = restaurantEditForm.getImageFile();
 		List<Integer> categoryIds = restaurantEditForm.getCategoryIds();
+		List<Integer> regularHolidayIds = restaurantEditForm.getRegularHolidayIds();
 		
 		if (!imageFile.isEmpty()) {
 			String imageName = imageFile.getOriginalFilename();
@@ -87,6 +95,7 @@ public class RestaurantService {
 		restaurantRepository.save(restaurant);
 		
 		categoryRestaurantService.syncCategoriesRestaurants(categoryIds, restaurant);
+		regularHolidayRestaurantService.syncRegularHolidaysRestaurants(regularHolidayIds, restaurant);
 	}
 	
 //	UUIDを使って生成したファイル名を返す

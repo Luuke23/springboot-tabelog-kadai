@@ -26,7 +26,7 @@ public class CategoryRestaurantService {
 		return categoryRestaurantRepository.findCategoryIdsByRestaurantOrderByIdAsc(restaurant);
 	}
 	
-//	店舗登録フォームから送信されたデータをcategoryRestauratRepositoryへ登録する
+//	店舗登録フォームから送信されたデータをcategory_restauratテーブルへ登録する
 	@Transactional
 	public void createCategoriesRestaurants(List<Integer> categoryIds, Restaurant restaurant) {
 		for (Integer categoryId : categoryIds) {
@@ -52,7 +52,7 @@ public class CategoryRestaurantService {
 		}
 	}
 	
-//	店舗編集フォームから送信されたデータをcategoryRestaurantRepositoryへ上書きする
+//	店舗編集フォームから送信されたデータをcategory_restaurantへ上書きする
 	@Transactional
 	public void syncCategoriesRestaurants(List<Integer> newCategoryIds, Restaurant restaurant) {
 		List<CategoryRestaurant> currentCategoriesRestaurants = categoryRestaurantRepository.findByRestaurantOrderByIdAsc(restaurant);

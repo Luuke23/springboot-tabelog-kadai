@@ -126,6 +126,20 @@
 										<span th:text="${restaurant.getOpeningTime()} + '～' + ${restaurant.getClosingTime()}"></span>
 									</div>
 								</div>
+								
+								<div class="row pb-2 mb-2 border-bottom">
+									<div class="col-4">
+										<span class="fw-bold">定休日</span>
+									</div>
+									<div class="col-8 d-flex">
+										<div th:unless="${restaurant.regularHolidaysRestaurants.isEmpty()}">
+											<span th:each="regularHolidayRestaurant, stat : ${restaurant.regularHolidaysRestaurants}" th:if="${stat.first}" th:text="${regularHolidayRestaurant.regularHoliday.day}"></span><span th:each="regularHolidayRestaurant, stat : ${restaurant.regularHolidaysRestaurants}" th:unless="${stat.first}" th:text="${'、' + regularHolidayRestaurant.regularHoliday.day}"></span>
+										</div>
+										<div th:if="${restaurant.regularHolidaysRestaurants.isEmpty()}">
+											<span>年中無休</span>
+										</div>
+									</div>
+								</div>
 															
 								<div class="row pb-2 mb-2 border-bottom">
 									<div class="col-4">
