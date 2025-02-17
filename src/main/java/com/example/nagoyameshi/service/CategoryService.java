@@ -48,5 +48,10 @@ public class CategoryService {
 		
 		categoryRepository.save(category);
 	}
+	
+//	指定したカテゴリ名を持つ最初のカテゴリを取得する
+	public Category findFirstCategoryByName(String name) {
+		return categoryRepository.findFirstByName(name);
+	}
 
 }
