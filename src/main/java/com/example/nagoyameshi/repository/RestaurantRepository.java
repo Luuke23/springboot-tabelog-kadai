@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import com.example.nagoyameshi.entity.Restaurant;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
+	public Restaurant findRestaurantById(Integer id);
+	
 	public Page<Restaurant> findByNameLike(String keyword, Pageable pageable);
 	
 	public Page<Restaurant> findAllByOrderByCreatedAtDesc(Pageable pageable);

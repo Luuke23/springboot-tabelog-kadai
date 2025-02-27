@@ -20,6 +20,8 @@ public class WebSecurityConfig {
 		.authorizeHttpRequests((requests) -> requests
 			.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**").permitAll()
 			.requestMatchers("/restaurants/**").hasAnyRole("ANONYMOUS", "FREE_MEMBER", "PAID_MEMBER")
+			.requestMatchers("/subscription/register", "/subscription/create").hasRole("FREE_MEMBER")  // 無料会員にのみアクセスを許可するURL
+            .requestMatchers("/subscription/edit", "/subscription/update", "/subscription/cancel", "/subscription/delete").hasRole("PAID_MEMBER")  // 有料会員にのみアクセスを許可するURL               
 			.requestMatchers("/admin/**").hasRole("ADMIN")
 			.anyRequest().authenticated()
 		)

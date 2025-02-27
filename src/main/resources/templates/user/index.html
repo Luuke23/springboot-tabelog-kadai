@@ -64,6 +64,23 @@
 									</div>
 								</div>
 							</div>
+							
+							<div class="d-flex justify-content-center mt-3">
+								<div sec:authorize="hasRole('ROLE_FREE_MEMBER')">
+									<a th:href="@{/subscription/register}">有料プラン登録はこちら</a>
+								</div>
+								
+								<div sec:authorize="hasRole('ROLE_PAID_MEMBER')">
+									<a th:href="@{/subscription/edit}">お支払方法の変更はこちら</a>
+								</div>
+							</div>
+							
+							<div class="d-flex justify-content-center mt-3">							
+								<div sec:authorize="hasRole('ROLE_PAID_MEMBER')">
+									<a th:href="@{/subscription/cancel}">有料プランの解約はこちら</a>
+								</div>
+							</div>
+								
 						</div>
 					</div>
 				</div>

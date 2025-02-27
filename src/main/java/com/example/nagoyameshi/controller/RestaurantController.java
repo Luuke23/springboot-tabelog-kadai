@@ -9,11 +9,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.nagoyameshi.entity.Category;
 import com.example.nagoyameshi.entity.Restaurant;
+import com.example.nagoyameshi.repository.RestaurantRepository;
 import com.example.nagoyameshi.service.CategoryService;
 import com.example.nagoyameshi.service.RestaurantService;
 
@@ -21,10 +23,12 @@ import com.example.nagoyameshi.service.RestaurantService;
 @RequestMapping("/restaurants")
 public class RestaurantController {
 	private final RestaurantService restaurantService;
+	private final RestaurantRepository restaurantRepository;
 	private final CategoryService categoryService;
 	
-	public RestaurantController(RestaurantService restaurantService, CategoryService categoryService) {
+	public RestaurantController(RestaurantService restaurantService, RestaurantRepository restaurantRepository, CategoryService categoryService) {
 		this.restaurantService = restaurantService;
+		this.restaurantRepository = restaurantRepository;
 		this.categoryService = categoryService;
 	}
 	
@@ -68,6 +72,16 @@ public class RestaurantController {
 		model.addAttribute("order", order);
 		
 		return "restaurants/index";
+	}
+	
+	@GetMapping("/{id}")
+	public String show(@PathVariable(name = "id") Integer id, Model model) {
+		
+		Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+		
+		model.addAttribute("restaurant", restaurant);
+		
+		return "/restaurants/show";
 	}
 
 }
