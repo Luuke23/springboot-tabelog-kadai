@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -29,6 +30,11 @@ public class RestaurantService {
 		this.restaurantRepository = restaurantRepository;
 		this.categoryRestaurantService = categoryRestaurantService;
 		this.regularHolidayRestaurantService = regularHolidayRestaurantService;
+	}
+	
+//	指定したIDを持つ店舗を取得する
+	public Optional<Restaurant> findRestaurantById(Integer id) {
+		return restaurantRepository.findById(id);
 	}
 	
 //	店舗登録機能
@@ -134,9 +140,14 @@ public class RestaurantService {
 		return restaurantRepository.findAllByOrderByCreatedAtDesc(pageable);
 	}
 
-//全ての店舗を最低価格が安い順に並べる。
+//  全ての店舗を最低価格が安い順に並べる。
 	public Page<Restaurant> findAllRestaurantsByOrderByLowestPriceAsc(Pageable pageable) {
 		return restaurantRepository.findAllByOrderByLowestPriceAsc(pageable);
+	}
+	
+//	全ての店舗を平均評価が高い順に並び替える。
+	public Page<Restaurant> findAllRestaurantsByOrderByAverageScoreDesc(Pageable pageable) {
+		return restaurantRepository.findAllByOrderByAverageScoreDesc(pageable);
 	}
 	
 //	指定されたキーワード名を含む店舗を作成日時が新しい順に並び替える
@@ -149,6 +160,12 @@ public class RestaurantService {
 		return restaurantRepository.findByNameLikeOrAddressLikeOrCategoryNameLikeOrderByLowestPriceAsc(nameKeyword, addressKeyword, categoryNameKeyword, pageable);
 	}
 	
+//	指定されたキーワードを含む店舗を平均評価が高い順に並べる
+	public Page<Restaurant> findRestaurantsByNameLikeOrAddressLikeOrCategoryNameLikeOrderByAverageScoreDesc(String nameKeyword, String addressKeyword, String categoryNameKeyword, Pageable pageable){
+		return restaurantRepository.findByNameLikeOrAddressLikeOrCategoryNameLikeOrderByAverageScoreDesc(nameKeyword, addressKeyword, categoryNameKeyword, pageable);
+		
+	}
+	
 //	指定されたカテゴリIDの店舗を作成日時が新しい順に並べる
 	public Page<Restaurant> findRestaurantsByCategoryIdOrderByCreatedAtDesc(Integer categoryId, Pageable pageable) {
 		return restaurantRepository.findByCategoryIdOrderByCreatedAtDesc(categoryId, pageable);
@@ -159,6 +176,11 @@ public class RestaurantService {
 		return restaurantRepository.findByCategoryIdOrderByLowestPriceAsc(categoryId, pageable);
 	}
 	
+//	指定されたカテゴリIDの店舗を平均評価が高い順に並べる
+	public Page<Restaurant> findRestaurantsByCategoryIdOrderByAverageScoreDesc(Integer categoryId, Pageable pageable){
+		return restaurantRepository.findByCategoryIdOrderByAverageScoreDesc(categoryId, pageable);
+	}
+	
 //	指定された最低価格以下の店舗を作成日時が新しい順に並べる
 	public Page<Restaurant> findRestaurantsByLowestPriceLessThanEqualOrderByCreatedAtDesc(Integer price, Pageable pageable) {
 		return restaurantRepository.findByLowestPriceLessThanEqualOrderByCreatedAtDesc(price, pageable);
@@ -167,5 +189,10 @@ public class RestaurantService {
 //	指定された最低価格以下の店舗を最低価格が安い順に並べる
 	public Page<Restaurant> findRestaurantsByLowestPriceLessThanEqualOrderByLowestPriceAsc(Integer price, Pageable pageable) {
 		return restaurantRepository.findByLowestPriceLessThanEqualOrderByLowestPriceAsc(price, pageable);
+	}
+	
+//	指定された最低価格以下の店舗を平均評価が高い順に並べる
+	public Page<Restaurant> findRestaurantsByLowestPriceLessThanEqualOrderByAverageScoreDesc(Integer price, Pageable pageable) {
+		return restaurantRepository.findByLowestPriceLessThanEqualOrderByAverageScoreDesc(price, pageable);
 	}
 }

@@ -20,7 +20,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "restaurants")
 @Data
-@ToString(exclude = {"categoriesRestaurants","regularHolidaysRestaurants"})
+@ToString(exclude = {"categoriesRestaurants","regularHolidaysRestaurants", "reviews"})
 public class Restaurant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,5 +70,18 @@ public class Restaurant {
 	@OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id ASC")
 	private List<RegularHolidayRestaurant> regularHolidaysRestaurants;
+	
+	@OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private List<Review> reviews;
+	
+//	平均評価を取得する
+	public Double getAverageScore() {
+		Double averageScore = reviews.stream()
+									 .mapToInt(Review::getScore)
+									 .average()
+									 .orElse(0.0);
+		
+		return averageScore;
+	}
 
 }
