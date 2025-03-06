@@ -75,37 +75,36 @@
 								</ul>
 							</div>
 							
+							<!-- 有料プランに登録していれば表示する -->
+                            <div th:if="${userRoleName.equals('ROLE_PAID_MEMBER') && reviewPage.getTotalPages() > 1}" class="d-flex justify-content-center">
+                                <nav aria-label="レビューページ">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <span th:if="${reviewPage.isFirst()}" class="page-link disabled">‹</span>
+                                            <a th:unless="${reviewPage.isFirst()}" th:href="@{/restaurants/__${restaurant.id}__/reviews(page = ${reviewPage.getNumber() - 1})}" class="page-link nagoyameshi-page-link">‹</a>
+                                        </li>
+                                        <li th:each="i : ${#numbers.sequence(0, reviewPage.getTotalPages() - 1)}" class="page-item">
+                                            <span th:if="${i == reviewPage.getNumber()}" class="page-link active nagoyameshi-active" th:text="${i + 1}"></span>
+                                            <a th:unless="${i == reviewPage.getNumber()}" th:href="@{/restaurants/__${restaurant.id}__/reviews(page = ${i})}" class="page-link nagoyameshi-page-link" th:text="${i + 1}"></a>
+                                        </li>
+                                        <li class="page-item">
+                                            <span th:if="${reviewPage.isLast()}" class="page-link disabled">›</span>
+                                            <a th:unless="${reviewPage.isLast()}" th:href="@{/restaurants/__${restaurant.id}__/reviews(page = ${reviewPage.getNumber() + 1})}" class="page-link nagoyameshi-page-link">›</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <!-- 有料プランに登録しておらず、レビュー数が3件を超えていれば表示する -->
+                            <div th:if="${userRoleName.equals('ROLE_FREE_MEMBER') && reviewPage.getTotalElements() > 3}" class="text-center">
+                                <p>レビューを全件表示するには<a th:href="@{/subscription/register}">有料プランへの登録</a>が必要です。</p>
+                            </div>
+
+                            <!-- 有料プランに登録しており、レビューを投稿済みでなければ表示する -->
+                            <div th:if="${userRoleName.equals('ROLE_PAID_MEMBER') && !hasUserAlreadyReviewed}" class="text-center mt-3">
+                                <a th:href="@{/restaurants/__${restaurant.id}__/reviews/register}" class="btn text-white shadow-sm w-50 nagoyameshi-btn">レビューを投稿する</a>
+                            </div>
 							
-						</div>
-						
-						<!--有料プランに登録していれば表示-->
-						<div th:if="${userRoleName.equals('ROLE_PAID_MEMBER') && reviewPage.getTotalPages() > 1}" class="d-flex justify-content-center">
-							<nav aria-label="レビューページ">
-								<ul class="pagination"> 
-									<li class="page-item">
-										<span th:if="${reviewPage.isFirst()}" class="page-link disabled"></span>
-										<a th:unless="${reviewPage.isFirst()}" th:href="@{/restaurants/__${restaurant.id}__/reviews(page = ${reviewPage.getNumber() - 1})}" class="page-link nagoyameshi-page-link"></a>
-									</li>
-									<li th:each="i : ${#numbers.sequence(0, reviewPage.getTotalPages() - 1)}" class="page-item">
-										<span th:if="${i == reviewPage.getNumber()}" class="page-link active nagoyameshi-active" th:text="${i + 1}"></span>
-										<a th:unless="${i == reviewPage.getNumber()}" th:href="@{/restaurants/__${restaurant.id}__/reviews(page = ${i})}" class="page-link nagoyameshi-page-link" th:text="${i + 1}"></a>
-									</li>
-									<li class="page-item">
-										<span th:if="${reviewPage.isLast()}" class="page-link disabled"></span>
-										<a th:unless="${reviewPage.isLast()}" th:href="@{/restaurants/__${restaurant.id}__/reviews(page = ${reviewPage.getNumber() + 1})}" class="page-link nagoyameshi-page-link"></a>
-									</li>
-								</ul>
-							</nav>
-						</div>
-						
-						<!--有料プランに登録しておらずレビュー件数3件以上の場合-->
-						<div th:if="${userRoleName.equals('ROLE_FREE_MEMBER') && reviewPage.getTotalElements() > 3}" class="text-center">
-							<p>レビューを全件表示するには<a th:href="@{/subscription/register}">有料プランへの登録</a>が必要です。</p>
-						</div>
-						
-						<!--有料プランに登録しておりレビューを投稿済みでなければ表示する-->
-						<div th:if="${userRoleName.equals('ROLE_PAID_MEMBER') && !hasUserAlreadyReviewed}" class="text-center mt-3">
-							<a th:href="@{/restaurants/__${restaurant.id}__/reviews/register}" class="btn text-white shadow-sm w-50 nagoyameshi-btn">レビューを投稿する</a>
 						</div>
 					</div>
 				</div>
