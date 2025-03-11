@@ -29,6 +29,7 @@
 				<div class="container nagoyameshi-container">
 					<a class="navbar-brand" th:href="@{/}">
 						<img class="nagoyameshi-logo me-1" th:src="@{/images/logo.png}" alt="NAGOYAMESHI">
+						<span>NAGOYAMESHI</span>
 					</a>
 					
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,6 +103,25 @@
 		<!--フッターの部品化-->
 		<div th:fragment="footer" th:remove="tag">
 			<footer class="bs-warning-bg-subtle">
+				<div class="d-flex justify-content-center nagoyameshi-footer-logo">
+                    <a class="navbar-brand nagoyameshi-app-name" th:href="@{/}">
+                        <div class="d-flex align-items-center">
+                            <img class="nagoyameshi-logo me-1" th:src="@{/images/logo.png}" alt="NAGOYAMESHI">
+                            <span>NAGOYAMESHI</span>
+                        </div>
+                    </a>
+                </div>
+				 <!-- 管理者以外であれば表示する -->
+                <div class="d-flex justify-content-center nagoyameshi-footer-link" sec:authorize="!hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/company}" class="link-secondary me-3">会社概要</a>
+                    <a th:href="@{/terms}" class="link-secondary">利用規約</a>
+                </div>
+                <!-- 管理者であれば表示する -->
+                <div class="d-flex justify-content-center nagoyameshi-footer-link" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a th:href="@{/admin/company}" class="link-secondary me-3">会社概要</a>
+                    <a th:href="@{/admin/terms}" class="link-secondary">利用規約</a>
+                </div>
+                
 				<div class="d-flex justify-content-center align-items-center h-100">
 					<p class="text-center text-muted small mb-0">&copy; NAGOYAMESHI All rights reserved.</p>
 				</div>
