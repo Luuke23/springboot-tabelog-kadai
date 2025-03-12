@@ -36,6 +36,10 @@ public class RestaurantService {
 	public Optional<Restaurant> findRestaurantById(Integer id) {
 		return restaurantRepository.findById(id);
 	}
+//	店舗のレコード数を取得する
+	public long countRestaurant() {
+		return restaurantRepository.count();
+	}
 	
 //	店舗登録機能
 	@Transactional

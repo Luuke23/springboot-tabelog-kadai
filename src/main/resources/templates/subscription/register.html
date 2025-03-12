@@ -27,11 +27,11 @@
 							
 							<h1 class="mb-4 text-center">有料プラン登録</h1>
 							
-							<hr class="mb-4">
+							<div th:if="${subscriptionMessage}" class="alert alert-info" role="alert">
+                                <span th:text="${subscriptionMessage}"></span>
+                            </div>
 							
-							<div th:if="${successMessage}" class="alert alert-success"> 
-								<span th:text="${successMessage}"></span>
-							</div>
+							<hr class="mb-4">
 							
 							<div class="card mb-4">
 								<div class="card-header text-center">
@@ -56,7 +56,7 @@
 								<div class="nagoyameshi-card-element mb-4" id="cardElement"></div>
 							</form>
 							
-							<div class="d-flex jusitfy-content-center">
+							<div class="text-center mt-3">
 								<button class="btn text-white shadow-sm w-50 nagoyameshi-btn" id="cardButton">登録</button>
 							</div>
 						</div>
