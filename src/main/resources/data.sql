@@ -2063,3 +2063,8 @@ INSERT IGNORE INTO favorites (id, restaurant_id, user_id) VALUES
 /* usersテーブル */
 INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES
 (103, '侍 太郎', 'サムライ タロウ', 'taro2.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true);
+
+INSERT IGNORE INTO users (id, name, furigana, email, password, role_id, enabled) VALUES
+(104, '侍 無料', 'サムライ タロウ', 'freemember@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 1, true),
+(105, '侍 有料', 'サムライ ジロウ', 'paidmember@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 2, true),
+(106, '侍 管理者', 'サムライ ハナコ', 'admin@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', 3, true);
