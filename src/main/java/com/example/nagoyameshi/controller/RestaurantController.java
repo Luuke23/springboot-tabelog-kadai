@@ -117,7 +117,7 @@ public class RestaurantController {
 		model.addAttribute("favorite", favorite);
 		model.addAttribute("isFavorite", isFavorite);
 		
-		return "/restaurants/show";
+		return "restaurants/show";
 	}
 
 }
